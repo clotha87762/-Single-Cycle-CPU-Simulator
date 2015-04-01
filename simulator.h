@@ -36,24 +36,19 @@ class simulator{
 
 
     public :
-    simulator(){
-        I_number=0;
-        D_number=0;
-        PC=0;
-        cycle = 0;
-    }
+    simulator();
 
     unsigned int PC;
     int cycle;
-    unsigned int I_mem[256]={0};
-    unsigned char I_mem_byte[1024]={0};
-    unsigned  char D_mem_byte[1024]={0};
-    unsigned  int D_mem[256]={0};
-    int reg[32]={0};
-    int I_number=0;
-    int D_number=0;
-    int I_number_byte=0;
-    int D_number_byte=0;
+    unsigned int I_mem[256];
+    unsigned char I_mem_byte[1024];
+    unsigned  char D_mem_byte[1024];
+    unsigned  int D_mem[256];
+    int reg[32];
+    int I_number;
+    int D_number;
+    int I_number_byte;
+    int D_number_byte;
     instruction_name nowOp;
     type_name nowType;
     int opcode;

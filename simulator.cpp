@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 #include "simulator.h"
 #include "decoder.h"
 
@@ -16,6 +17,21 @@ using namespace std;
 
 
 int branch;
+
+simulator::simulator(){
+     I_number=0;
+     D_number=0;
+     I_number_byte=0;
+     D_number_byte = 0;
+     PC=0;
+     cycle = 0;
+     memset(I_mem, 0x00, sizeof(I_mem));
+     memset(I_mem_byte, 0x00, sizeof(I_mem_byte));
+     memset(D_mem, 0x00, sizeof(D_mem));
+     memset(D_mem_byte, 0x00, sizeof(D_mem_byte));
+     memset(reg, 0x00, sizeof(reg));
+
+}
 
 int simulator::decodeInstruction(){
         int halt = 0;
