@@ -8,10 +8,12 @@ using namespace std;
 simulator sim;
 int main()
 {
-    /*int k = -1 ;
-    unsigned int d = (unsigned int)k;
-    d=d>>31;
-    printf("%d\n",d);
+    /*short x = -1;
+    int t = -1;
+     unsigned short tt = (unsigned short) x;
+    unsigned int mask_temp = (unsigned int)tt;
+    int a = mask_temp<<16  ;
+    printf("0x%08X\n",a);
 
 
     system("Pause");*/
