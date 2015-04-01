@@ -25,6 +25,8 @@ simulator::simulator(){
      D_number_byte = 0;
      PC=0;
      cycle = 0;
+     skipCycle=false;
+     errorHalt=false;
      memset(I_mem, 0x00, sizeof(I_mem));
      memset(I_mem_byte, 0x00, sizeof(I_mem_byte));
      memset(D_mem, 0x00, sizeof(D_mem));

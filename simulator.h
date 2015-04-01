@@ -53,8 +53,8 @@ class simulator{
     type_name nowType;
     int opcode;
 
-    bool skipCycle=false;
-    bool errorHalt=false;
+    bool skipCycle;
+    bool errorHalt;
 
     Rinstruction r_instruction;
     Iinstruction i_instruction;
