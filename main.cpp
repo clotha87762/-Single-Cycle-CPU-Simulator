@@ -8,10 +8,10 @@ using namespace std;
 simulator sim;
 int main()
 {
-   /* char k = -4 ;
-    unsigned int d = 1;
-    k=k>>d;
-    printf("%d\n",k);
+    /*int k = -1 ;
+    unsigned int d = (unsigned int)k;
+    d=d>>31;
+    printf("%d\n",d);
 
 
     system("Pause");*/
@@ -117,31 +117,35 @@ int main()
 
  system("Pause");*/
 
-/*
-    sim.reg[8] = -2147483648;
+
+   /* sim.reg[8] = 8;
     sim.reg[1] = 1;
-    sim.nowOp = LW;
-    sim.nowType=Itype;
+    sim.nowOp = SRL;
+    sim.nowType=Rtype;
+*/
+    /*
     sim.i_instruction.immediate = -1;
     sim.i_instruction.rt = 0;
     sim.i_instruction.rs = 8;
     sim.i_instruction.opcode = 0x23;*/
-
-   /* sim.r_instruction.opcode=0x00;
+/*
+    sim.r_instruction.opcode=0x00;
     sim.r_instruction.rs = 8;
-    sim.r_instruction.rt = 1;
-     sim.r_instruction.rd = 0;
-    sim.r_instruction.funct = 0x22;
-    sim.r_instruction.shamt = 0;*/
+    sim.r_instruction.rt = 8;
+     sim.r_instruction.rd = 3;
+    sim.r_instruction.funct = 0x02;
+    sim.r_instruction.shamt = 1;*/
 
 
-   FILE* f = fopen("register.rpt", "w");
+   FILE* f = fopen("snapshot.rpt", "w");
    FILE* E = fopen("error_dump.rpt","w");
 
    while(1){
 
-        //system("Pause");
+      //  system("Pause");
         sim.PrintReg(f);
+
+        sim.cycle++;
 
         int halt;
 

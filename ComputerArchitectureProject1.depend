@@ -45,7 +45,7 @@
 
 1426306118 source:c:\users\chihmin\desktop\computerarchitectureproject1\errorhandler.cpp
 
-1427858362 source:c:\users\chihmin\desktop\computerarchitectureproject1\simulator.cpp
+1427892464 source:c:\users\chihmin\desktop\computerarchitectureproject1\simulator.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>
@@ -53,7 +53,7 @@
 	"simulator.h"
 	"decoder.h"
 
-1427857566 source:c:\users\chihmin\desktop\computerarchitectureproject1\main.cpp
+1427892462 source:c:\users\chihmin\desktop\computerarchitectureproject1\main.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>

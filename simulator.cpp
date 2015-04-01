@@ -206,7 +206,7 @@ void simulator::afterInstruction(){
         if(!branch)
         PC+=4;
 
-        cycle++;
+
 
 
 }
@@ -609,6 +609,7 @@ void simulator::sra_Instruction(){
 
 void simulator::srl_Instruction(){
     unsigned int temp = (unsigned int) reg[RRT];
+    temp = temp>>r_instruction.shamt;
     reg[RRD] =temp;
 }
 
