@@ -3,41 +3,63 @@
 #endif
 #include<iostream>
 
-enum instruction_name {ADD,SUB,AND,OR,XOR,NOR,NAND,SLT,SLL,SRL,SRA,JR,ADDI,LW,LH,LHU,LB,LBU
+
+enum instruction_name {ADD,SUB,AND,OR,XOR,NOR,NAND,SLT,SLL,SRL,SRA,JR,ADDI,LW,LH,LHU,LB,LBU,
                         SW,SH,SB,LUI,ANDI,ORI,NORI,SLTI,BEQ,BNE,J,JAL,HALT};
+enum type_name{Rtype,Itype,Jtype};
 
 struct RInstruction{
-    int opcode;
-    int rs;
-    int rt;
-    int rd;
-    int schmt;
-    int funct;
+    unsigned int opcode;
+    unsigned int rs;
+    unsigned int rt;
+    unsigned int rd;
+    unsigned int shamt;
+    unsigned int funct;
 };
 
 struct IInstruction{
-    int opcode;
-    int rs;
-    int rt;
-    int immediate;
+    unsigned int opcode;
+    unsigned int rs;
+    unsigned int rt;
+    signed short immediate;
 };
 
 struct JInstruction{
-    int opcode;
-    int address;
-
+    unsigned int opcode;
+    unsigned int address;
 };
 typedef struct RInstruction Rinstruction;
 typedef struct IInstruction Iinstruction;
 typedef struct JInstruction Jinstruction;
+
 class simulator{
-   public :
+
+
+    public :
+    simulator(){
+        I_number=0;
+        D_number=0;
+        PC=0;
+        cycle = 0;
+    }
+
     unsigned int PC;
+    int cycle;
     unsigned int I_mem[256]={0};
-    char D_mem[1025]={0};
+    unsigned char I_mem_byte[1024]={0};
+    unsigned  char D_mem_byte[1024]={0};
+    unsigned  int D_mem[256]={0};
     int reg[32]={0};
-    int I_number;
-    int D_number;
+    int I_number=0;
+    int D_number=0;
+    int I_number_byte=0;
+    int D_number_byte=0;
+    instruction_name nowOp;
+    type_name nowType;
+    int opcode;
+
+    bool skipCycle=false;
+    bool errorHalt=false;
 
     Rinstruction r_instruction;
     Iinstruction i_instruction;
@@ -72,10 +94,18 @@ class simulator{
     void beq_Instruction();
     void bne_Instruction();
     void j_Instruction();
-    void jr_Instruction();
+    void jal_Instruction();
     void halt_Instruction();
 
-    void PrintReg();
+    void PrintReg(FILE* f);
+    int decodeInstruction();
+    void afterInstruction();
+    void ExecuteInstruction(FILE* E);
 
+    void Deal_WritetoReg0(FILE* E);
+    void Deal_NumberOverflow(FILE* E);
+    void Deal_MemoryAddOverflow(FILE* E);
+    void Deal_DataMisaligned(FILE* E);
 };
+
 

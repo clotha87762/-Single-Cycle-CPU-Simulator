@@ -1,32 +1,54 @@
 #include <iostream>
 #include <cstdio>
+#include <cstdlib>
 #include "decoder.h"
 #include "errorHandler.h"
 #include "simulator.h"
-
+extern simulator sim;
+using namespace std;
 void decodeData(FILE* F){
 
 
     int i=0;
     int status;
-    char data_temp;
 
-    status = fread(&data_temp,sizeof(char),1,F);
-    sim.reg[29] = data_temp;
+    unsigned int data_temp=0;
+    unsigned char byte;
 
-    status =fread(&data_temp,sizeof(char),1,F);
+    for(i=0;i<4;i++){
+        status = fread(&byte,sizeof(char),1,F);
+        data_temp = data_temp|(byte<<(8*(3-i)));
+    }
+   // printf("0x%08X\n",data_temp);
+    //cout<<tmp<<endl;
+    sim.reg[29]=data_temp;
+
+    data_temp=0;
+
+    for(i=0;i<4;i++){
+        status = fread(&byte,sizeof(char),1,F);
+        data_temp = data_temp|(byte<<(8*(3-i)));
+    }
     sim.D_number = data_temp;
+    sim.D_number_byte=data_temp*4;
+   // printf("0x%08X\n",data_temp);
 
-    while(!feof(F)){
+    i=0;
 
-        status = fread(&data_temp,sizeof(char),1,F);
-        if(!status){
-            sim.D_mem[i++] = data_temp;
+    while(i<sim.D_number_byte){
+
+        status = fread(&byte,sizeof(char),1,F);
+        if(status){
+
+            sim.D_mem_byte[i++] = byte;
+
         }
-
     }
 
-
+    int j=0;
+    for(i=0;i<sim.D_number_byte;i+=4){
+        sim.D_mem[j++] = (sim.D_mem_byte[i]<<24)|(sim.D_mem_byte[i+1]<<16)| (sim.D_mem_byte[i+2]<<8) | (sim.D_mem_byte[i+3]);
+    }
 }
 
 void decodeInstructions(FILE* F){
@@ -34,21 +56,46 @@ void decodeInstructions(FILE* F){
     int i=0;
     int status;
     unsigned int ins_temp;
+    unsigned char byte;
+    unsigned int pctemp=0;
 
-    status = fread(&ins_temp,sizeof(unsigned int),1,F);
-    sim.PC = ins_temp;
+    for(i=0;i<4;i++){
+        status = fread(&byte,sizeof(char),1,F);
+        pctemp = pctemp|(byte<<(8*(3-i)));
+    }
+    //printf("0x%08X\n",pctemp);
 
-    status =fread(&ins_temp,sizeof(unsigned int),1,F);
-    sim.I_number = ins_temp;
+    sim.PC = pctemp;
+    int inum = 0;
 
-    while(!feof(F)){
 
-        status = fread(&ins_temp,sizeof(unsigned int),1,F);
-        if(!status){
-            sim.I_mem[i++] = ins_temp;
+    for(i=0;i<4;i++){
+        status = fread(&byte,sizeof(char),1,F);
+        inum= inum|(byte<<(8*(3-i)));
+    }
+
+    //printf("0x%08X\n",inum);
+    sim.I_number = inum;
+    sim.I_number_byte = inum*4;
+
+
+    i=pctemp;
+    int p = 0;
+    while(p++<sim.I_number_byte){
+
+        status = fread(&byte,sizeof(char),1,F);
+        if(status){
+            sim.I_mem_byte[i++] = byte;
         }
 
     }
+
+    int j=pctemp/4;
+    for(i=pctemp;i<sim.I_number_byte+pctemp;i+=4){
+        sim.I_mem[j++] = (sim.I_mem_byte[i]<<24)|(sim.I_mem_byte[i+1]<<16)| (sim.I_mem_byte[i+2]<<8) | (sim.I_mem_byte[i+3]);
+
+    }
+
 }
 
 

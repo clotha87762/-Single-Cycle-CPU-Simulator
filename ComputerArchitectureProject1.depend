@@ -1,5 +1,64 @@
 # depslib dependency file v1.0
-1426081558 source:c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\main.cpp
+1426364593 source:c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\main.cpp
 	<iostream>
 	<cstdio>
+	"simulator.h"
+	"decoder.h"
+	"errorHandler.h"
+
+1426348932 source:c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\decoder.cpp
+	<iostream>
+	<cstdio>
+	"decoder.h"
+	"errorHandler.h"
+	"simulator.h"
+
+1426127438 c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\decoder.h
+
+1426245528 c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\errorhandler.h
+
+1426362460 c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\simulator.h
+	<iostream>
+
+1426245554 source:c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\errorhandler.cpp
+
+1426413830 source:c:\users\clotha87762\desktop\computer architecture\computerarchitectureproject1\simulator.cpp
+	<iostream>
+	<cstdio>
+	"simulator.h"
+	"decoder.h"
+	"errorHandler.h"
+
+1427854297 source:c:\users\chihmin\desktop\computerarchitectureproject1\decoder.cpp
+	<iostream>
+	<cstdio>
+	<cstdlib>
+	"decoder.h"
+	"errorHandler.h"
+	"simulator.h"
+
+1426306122 c:\users\chihmin\desktop\computerarchitectureproject1\decoder.h
+
+1426306116 c:\users\chihmin\desktop\computerarchitectureproject1\errorhandler.h
+
+1427555219 c:\users\chihmin\desktop\computerarchitectureproject1\simulator.h
+	<iostream>
+
+1426306118 source:c:\users\chihmin\desktop\computerarchitectureproject1\errorhandler.cpp
+
+1427773438 source:c:\users\chihmin\desktop\computerarchitectureproject1\simulator.cpp
+	<iostream>
+	<cstdio>
+	<cstdlib>
+	"simulator.h"
+	"decoder.h"
+	"errorHandler.h"
+
+1427773080 source:c:\users\chihmin\desktop\computerarchitectureproject1\main.cpp
+	<iostream>
+	<cstdio>
+	<cstdlib>
+	"simulator.h"
+	"decoder.h"
+	"errorHandler.h"
 
