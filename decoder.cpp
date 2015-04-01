@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include "decoder.h"
-#include "errorHandler.h"
 #include "simulator.h"
 extern simulator sim;
 using namespace std;

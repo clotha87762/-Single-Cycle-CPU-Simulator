@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include "simulator.h"
 #include "decoder.h"
-#include "errorHandler.h"
+
 
 using namespace std;
 #define RRS (r_instruction.rs)
@@ -22,7 +22,7 @@ int simulator::decodeInstruction(){
         branch = 0;
         unsigned int instruction = (I_mem_byte[PC]<<24)|(I_mem_byte[PC+1]<<16)| (I_mem_byte[PC+2]<<8) | (I_mem_byte[PC+3]);//會不會是變數名字的關係????
         int mask;
-        printf("ins 0x%08X\n",instruction);
+        //printf("ins 0x%08X\n",instruction);
         mask = 0xFC000000;
         opcode = (instruction&mask)>>26;
         if(opcode==0x00){

@@ -29,12 +29,11 @@
 	"decoder.h"
 	"errorHandler.h"
 
-1427854297 source:c:\users\chihmin\desktop\computerarchitectureproject1\decoder.cpp
+1427855670 source:c:\users\chihmin\desktop\computerarchitectureproject1\decoder.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>
 	"decoder.h"
-	"errorHandler.h"
 	"simulator.h"
 
 1426306122 c:\users\chihmin\desktop\computerarchitectureproject1\decoder.h
@@ -46,19 +45,17 @@
 
 1426306118 source:c:\users\chihmin\desktop\computerarchitectureproject1\errorhandler.cpp
 
-1427773438 source:c:\users\chihmin\desktop\computerarchitectureproject1\simulator.cpp
+1427855669 source:c:\users\chihmin\desktop\computerarchitectureproject1\simulator.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>
 	"simulator.h"
 	"decoder.h"
-	"errorHandler.h"
 
-1427773080 source:c:\users\chihmin\desktop\computerarchitectureproject1\main.cpp
+1427855688 source:c:\users\chihmin\desktop\computerarchitectureproject1\main.cpp
 	<iostream>
 	<cstdio>
 	<cstdlib>
 	"simulator.h"
 	"decoder.h"
-	"errorHandler.h"
 

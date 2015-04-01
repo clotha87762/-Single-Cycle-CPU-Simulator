@@ -3,7 +3,6 @@
 #include <cstdlib>
 #include "simulator.h"
 #include "decoder.h"
-#include "errorHandler.h"
 using namespace std;
 
 simulator sim;
@@ -141,7 +140,7 @@ int main()
 
    while(1){
 
-        system("Pause");
+        //system("Pause");
         sim.PrintReg(f);
 
         int halt;
