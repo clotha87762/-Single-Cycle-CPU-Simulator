@@ -135,7 +135,7 @@ int main()
     sim.r_instruction.shamt = 0;*/
 
 
-   FILE* f = fopen("register.txt", "w");
+   FILE* f = fopen("register.rpt", "w");
    FILE* E = fopen("error_dump.rpt","w");
 
    while(1){
