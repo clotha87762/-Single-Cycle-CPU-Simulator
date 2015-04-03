@@ -174,7 +174,7 @@ int simulator::decodeInstruction(){
                     nowOp = LUI;
                     break;
                 case 0x0C:
-                    nowOp = ADDI;
+                    nowOp = ANDI;
                     break;
                 case 0x0D:
                     nowOp = ORI;
@@ -455,8 +455,10 @@ void  simulator::and_Instruction(){
 
 void simulator::andi_Instruction(){
     unsigned short temp = (unsigned short) IIM;
+    //printf("temp 0x%08X",temp);
     unsigned int mask_temp = (unsigned int)temp;
-    reg[IRT] = reg[IRS] & mask_temp;
+   // printf("tempmask 0x%08X",temp);
+    reg[IRT] = (int) (((unsigned int)reg[IRS]) & mask_temp);
 }
 
 void simulator::beq_Instruction(){
@@ -508,21 +510,19 @@ void simulator::lbu_Instruction(){ // ®¦¦ë¡H
 
 
 void simulator::lh_Instruction(){
+    short temp;
+    temp = (((short)D_mem_byte[reg[IRS] + IIM])<<8) | ((unsigned short)D_mem_byte[reg[IRS] + IIM+1]);
 
-    char unchar = (char) D_mem_byte[reg[IRS] + IIM];
-    char unchar1 = (char) D_mem_byte[reg[IRS] + IIM+1];
-    int temp = ((int)unchar<<8)|((int)unchar1);
-    reg[IRT] = temp;
+    reg[IRT] = (int)temp;
    // printf("TEMP 0x%08X\n",temp);
     //reg[IRT] = temp
 }
 
 void simulator::lhu_Instruction(){
-    unsigned char unchar = (unsigned char) D_mem_byte[reg[IRS] + IIM];
-    unsigned char unchar1 = (unsigned char) D_mem_byte[reg[IRS] + IIM+1];
-    int temp = ((int)unchar<<8)|((int)unchar1);
+     unsigned short temp;
+     temp = (((unsigned short)D_mem_byte[reg[IRS] + IIM])<<8) | ((unsigned short)D_mem_byte[reg[IRS] + IIM+1]);
    // printf("TEMP 0x%08X\n",temp);
-    reg[IRT] = temp;
+    reg[IRT] = (int)temp;
     /*(((int)D_mem_byte[reg[IRS] + IIM])<<8)|((int) (D_mem_byte[reg[IRS] + IIM +1]))<0?
                      temp
                     :(((int)D_mem_byte[reg[IRS] + IIM])<<8)|((int) (D_mem_byte[reg[IRS] + IIM +1]))*/;
@@ -554,7 +554,7 @@ void simulator::nori_Instruction(){
 
     unsigned short temp = (unsigned short) IIM;
     unsigned int mask_temp = (unsigned int)temp;
-    reg[IRT] = ~(reg[IRS] | mask_temp);
+    reg[IRT] = (int)(~(((unsigned int)reg[IRS]) | mask_temp));
 }
 
 void simulator::or_Instruction(){
@@ -564,8 +564,9 @@ void simulator::or_Instruction(){
 void simulator::ori_Instruction(){
     //unsigned short unshort = (unsigned short);
     unsigned short temp = (unsigned short) IIM;
+
     unsigned int mask_temp = (unsigned int)temp;
-    reg[IRT] = (reg[IRS] | mask_temp);
+    reg[IRT] = (int)(((unsigned int)reg[IRS]) | mask_temp);
 }
 
 void simulator::sb_Instruction(){
@@ -574,7 +575,7 @@ void simulator::sb_Instruction(){
 
 void simulator::sh_Instruction(){
     D_mem_byte[reg[IRS]+IIM] =  (unsigned char)((reg[IRT]&0x0000FF00)>>8);
-    D_mem_byte[reg[IRS]+IIM+1] = (unsigned char)reg[IRT]&0x000000FF;
+    D_mem_byte[reg[IRS]+IIM+1] = (unsigned char)(reg[IRT]&0x000000FF);
 
 }
 
@@ -610,7 +611,7 @@ void simulator::sra_Instruction(){
 void simulator::srl_Instruction(){
     unsigned int temp = (unsigned int) reg[RRT];
     temp = temp>>r_instruction.shamt;
-    reg[RRD] =temp;
+    reg[RRD] =(int)temp;
 }
 
 void simulator::sub_Instruction(){

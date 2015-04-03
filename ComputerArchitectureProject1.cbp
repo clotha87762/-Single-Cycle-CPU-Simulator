@@ -34,8 +34,6 @@
 		</Compiler>
 		<Unit filename="decoder.cpp" />
 		<Unit filename="decoder.h" />
-		<Unit filename="errorHandler.cpp" />
-		<Unit filename="errorHandler.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="simulator.cpp" />
 		<Unit filename="simulator.h" />

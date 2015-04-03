@@ -7,7 +7,12 @@ using namespace std;
 
 simulator sim;
 int main()
-{
+{  /*unsigned short s= 0xFFFF;
+    int t = (int) s;
+    printf("0x%08X",t);
+    system("Pause");*/
+
+
     /*short x = -1;
     int t = -1;
      unsigned short tt = (unsigned short) x;

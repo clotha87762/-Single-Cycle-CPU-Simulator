@@ -21,7 +21,7 @@ struct IInstruction{
     unsigned int opcode;
     unsigned int rs;
     unsigned int rt;
-    signed short immediate;
+    short immediate;
 };
 
 struct JInstruction{
