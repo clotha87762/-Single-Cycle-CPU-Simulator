@@ -243,7 +243,7 @@ void  simulator::Deal_WritetoReg0(FILE* E){
 
             if(r_instruction.rd!=0x00) return;
 
-            if(nowOp==SLL&&r_instruction.rs==0x00&&r_instruction.rt==0x00) return;
+            if(nowOp==SLL&&r_instruction.shamt==0x00&&r_instruction.rt==0x00) return;
 
             if(nowOp==JR) return;
 
@@ -256,33 +256,50 @@ void  simulator::Deal_WritetoReg0(FILE* E){
 
 }
 
+bool isOverflow ;
+
+
+void overflowCmp(int x,int y){
+
+    int sum = x+y;
+    int mask = (1<<31);
+    if((x&mask) == (y&mask))
+        if((sum&mask) != (x&mask))
+            isOverflow=true;
+
+}
 
 void  simulator::Deal_NumberOverflow(FILE* E){
 
-    bool isOverflow ;
+
     isOverflow=false;
 
     if(!(nowOp==ADD||nowOp==ADDI||nowOp==SUB||nowOp==LW||nowOp==LH||nowOp==LHU||nowOp==LB||nowOp==LBU
        ||nowOp==SW||nowOp==SH||nowOp==SB||nowOp==BEQ||nowOp==BNE))
        return;
 
+
     if(nowType==Rtype){
 
         if(nowOp==ADD){
 
-            if(reg[r_instruction.rs]>=0&&reg[r_instruction.rt]>=0&&(reg[r_instruction.rs]+reg[r_instruction.rt])<0)
+            /*if(reg[r_instruction.rs]>=0&&reg[r_instruction.rt]>=0&&(reg[r_instruction.rs]+reg[r_instruction.rt])<0)
                  isOverflow=true;//記得最後要加report喔
             else if(reg[r_instruction.rs]<0&&reg[r_instruction.rt]<0&&(reg[r_instruction.rs]+reg[r_instruction.rt])>=0)
-                isOverflow=true;
+                isOverflow=true;*/
+          overflowCmp(reg[RRS],reg[RRT]);
+
 
     }
     else if(nowOp==SUB){
 
 
-        if(reg[r_instruction.rs]>=0&&reg[r_instruction.rt]<0&&(reg[r_instruction.rs]-reg[r_instruction.rt])<0)
+        /*if(reg[r_instruction.rs]>=0&&reg[r_instruction.rt]<0&&(reg[r_instruction.rs]-reg[r_instruction.rt])<0)
             isOverflow=true; //記得最後要加report喔
         else if(reg[r_instruction.rs]<0&&reg[r_instruction.rt]>=0&&(reg[r_instruction.rs]-reg[r_instruction.rt])>=0)
             isOverflow = true;
+        */
+            overflowCmp(reg[RRS],-reg[RRT]);
 
         }
 
@@ -297,10 +314,11 @@ void  simulator::Deal_NumberOverflow(FILE* E){
             }
             else{
 
-                if(reg[i_instruction.rs]>=0&&i_instruction.immediate>=0&&reg[i_instruction.rs]+i_instruction.immediate<0)
+                /*if(reg[i_instruction.rs]>=0&&i_instruction.immediate>=0&&reg[i_instruction.rs]+i_instruction.immediate<0)
                     isOverflow=true;
                 else if(reg[i_instruction.rs]<0&&i_instruction.immediate<0&&reg[i_instruction.rs]+i_instruction.immediate>=0)
-                    isOverflow = true;
+                    isOverflow = true;*/
+                 overflowCmp(reg[IRS],IIM);
             }
 
     }
@@ -314,9 +332,23 @@ void  simulator::Deal_MemoryAddOverflow(FILE* E){
 
     if(nowOp==LW||nowOp==LH||nowOp==LHU||nowOp==LB||nowOp==LBU||nowOp==SW||nowOp==SH||nowOp==SB){
 
-        if(reg[i_instruction.rs]+i_instruction.immediate>=1024||reg[i_instruction.rs]+i_instruction.immediate<0){
+        if(nowOp==LB||nowOp==LBU||nowOp==SB){
+            if(reg[i_instruction.rs]+i_instruction.immediate>=1024||reg[i_instruction.rs]+i_instruction.immediate<0){
             fprintf(E,"In cycle %d: Address Overflow\n", cycle);
             errorHalt = true;
+            }
+        }
+        else if(nowOp==LH||nowOp==LHU||nowOp==SH){
+            if(reg[i_instruction.rs]+i_instruction.immediate>=1023||reg[i_instruction.rs]+i_instruction.immediate<0){
+            fprintf(E,"In cycle %d: Address Overflow\n", cycle);
+            errorHalt = true;
+            }
+        }
+        else if(nowOp==LW||nowOp==SW){
+            if(reg[i_instruction.rs]+i_instruction.immediate>=1021||reg[i_instruction.rs]+i_instruction.immediate<0){
+            fprintf(E,"In cycle %d: Address Overflow\n", cycle);
+            errorHalt = true;
+            }
         }
 
     }
@@ -513,7 +545,7 @@ void simulator::lh_Instruction(){
     short temp;
     temp = (((short)D_mem_byte[reg[IRS] + IIM])<<8) | ((unsigned short)D_mem_byte[reg[IRS] + IIM+1]);
 
-    reg[IRT] = (int)temp;
+    reg[IRT] = temp;
    // printf("TEMP 0x%08X\n",temp);
     //reg[IRT] = temp
 }
@@ -522,7 +554,7 @@ void simulator::lhu_Instruction(){
      unsigned short temp;
      temp = (((unsigned short)D_mem_byte[reg[IRS] + IIM])<<8) | ((unsigned short)D_mem_byte[reg[IRS] + IIM+1]);
    // printf("TEMP 0x%08X\n",temp);
-    reg[IRT] = (int)temp;
+    reg[IRT] = temp;
     /*(((int)D_mem_byte[reg[IRS] + IIM])<<8)|((int) (D_mem_byte[reg[IRS] + IIM +1]))<0?
                      temp
                     :(((int)D_mem_byte[reg[IRS] + IIM])<<8)|((int) (D_mem_byte[reg[IRS] + IIM +1]))*/;
@@ -580,6 +612,7 @@ void simulator::sh_Instruction(){
 }
 
 void simulator::sll_Instruction(){
+    if(r_instruction.rs!=0) return;
     reg[RRD] =  reg[RRT] << r_instruction.shamt;
 
 }
@@ -611,7 +644,7 @@ void simulator::sra_Instruction(){
 void simulator::srl_Instruction(){
     unsigned int temp = (unsigned int) reg[RRT];
     temp = temp>>r_instruction.shamt;
-    reg[RRD] =(int)temp;
+    reg[RRD] =temp;
 }
 
 void simulator::sub_Instruction(){

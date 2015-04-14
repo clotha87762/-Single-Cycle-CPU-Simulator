@@ -3,8 +3,9 @@
 #include <cstdlib>
 #include "simulator.h"
 #include "decoder.h"
+#include <cstring>
 using namespace std;
-
+void compare();
 simulator sim;
 int main()
 {  /*unsigned short s= 0xFFFF;
@@ -144,21 +145,46 @@ int main()
     sim.r_instruction.shamt = 1;*/
 
 
-   FILE* f = fopen("snapshot.rpt", "w");
-   FILE* E = fopen("error_dump.rpt","w");
-
+   FILE* f = fopen("snapshot3.rpt", "w");
+   FILE* E = fopen("error_dump2.rpt","w");
    while(1){
 
-      //  system("Pause");
+       // system("Pause");
         sim.PrintReg(f);
 
-        sim.cycle++;
 
         int halt;
 
         halt=sim.decodeInstruction();
 
+
+        sim.cycle++;
+        //compare();
         if(halt) break;
+
+         if(sim.cycle==68){
+          if(sim.nowType==Rtype){
+            cout<<"op "<<hex<<sim.r_instruction.opcode<<endl;
+            cout<<"rs "<<hex<<sim.r_instruction.rs<<endl;
+            cout<<"rt "<<hex<<sim.r_instruction.rt<<endl;
+            cout<<"rd "<<hex<<sim.r_instruction.rd<<endl;
+            cout<<"shamt "<<hex<<sim.r_instruction.shamt<<endl;
+            cout<<"funct "<<hex<<sim.r_instruction.funct<<endl;
+            cout<<"nowOp "<<sim.nowOp<<endl;
+        }
+        else if(sim.nowType==Itype){
+            cout<<"op "<<hex<<sim.i_instruction.opcode<<endl;
+            cout<<"rs "<<hex<<sim.i_instruction.rs<<endl;
+            cout<<"rt "<<hex<<sim.i_instruction.rt<<endl;
+            cout<<"immediate "<<sim.i_instruction.immediate<<endl;
+            cout<<"rs8 "<<sim.reg[sim.i_instruction.rs]<<endl;
+             cout<<"rt8 "<<sim.reg[sim.i_instruction.rt]<<endl;
+        }else{
+            cout<<"op "<<hex<<sim.j_instruction.opcode<<endl;
+            cout<<"add "<<hex<<sim.j_instruction.address<<endl;
+
+        }
+        }
 
         sim.ExecuteInstruction(E);
         if(sim.errorHalt)break;
@@ -173,9 +199,26 @@ int main()
 
 }
 
-void test(){
+void compare(){
+    FILE* f1 = fopen("snapshot.rpt","r");
+    FILE* f2 = fopen("snapshot.rpt","r");
+    char cp[100];
+    char cp2[100];
+    while( fgets(cp,100,f1)!=NULL){
 
-    static int i = 0;
+        if(fgets(cp2,100,f2)!=NULL){
+
+            if(strcmp(cp,cp2)!=0){
+                cout<<sim.cycle;
+                system("Pause");
+                break;
+            }
+
+        }
+
+
+    }
+
 
 
 }
